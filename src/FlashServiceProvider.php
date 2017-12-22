@@ -15,6 +15,9 @@ class FlashServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/resources/statics' => public_path('statics'),
+        ], 'public');
         $kernel = $this->app[Kernel::class];
         $kernel->pushMiddleware(LaravelFlash::class);
     }
