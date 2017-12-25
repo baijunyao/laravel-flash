@@ -33,7 +33,7 @@ php;
             $toastrJsPath = asset('statics/toastr-2.1.1/toastr.min.js');
             $init = '';
             if (session()->has('alert-message')) {
-                $init = 'toastr.'.session('alert-type').'('.session('alert-message').')';
+                $init = 'toastr.'.session('alert-type').'("'.session('alert-message').'");';
             }
             $jqueryJsPath = asset('statics/jquery-2.2.4/jquery.min.js');
 
