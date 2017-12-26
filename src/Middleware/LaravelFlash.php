@@ -32,8 +32,15 @@ php;
             // 插入js标签
             $toastrJsPath = asset('statics/toastr-2.1.1/toastr.min.js');
             $init = '';
+            // 自定义提示信息
             if (session()->has('alert-message')) {
                 $init = 'toastr.'.session('alert-type').'("'.session('alert-message').'");';
+            }
+            // Validate 表单验证的错误信息
+            if (session()->has('errors')) {
+                foreach (session('errors')->all() as $k => $v) {
+                    $init .= 'toastr.error'.'("'.$v.'");';
+                }
             }
             $jqueryJsPath = asset('statics/jquery-2.2.4/jquery.min.js');
 
