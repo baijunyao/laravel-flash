@@ -19,32 +19,36 @@ class LaravelFlash
         $response = $next($request);
         // 获取response内容
         $content = $response->getContent();
-        // 判断是否有body标签如果有则添加 toastr
-        if (false !== strripos($content, '</body>')) {
-            // 插入css标签
-            $toastrCssPath = asset('statics/toastr-2.1.1/toastr.min.css');
 
-            $toastrCss = <<<php
+        // 判断是否有body标签如果有则添加 toastr 否则直接返回
+        if (false === strripos($content, '</body>')) {
+            return $content;
+        }
+    
+        // 插入css标签
+        $toastrCssPath = asset('statics/toastr-2.1.1/toastr.min.css');
+
+        $toastrCss = <<<php
 <link href="$toastrCssPath" rel="stylesheet" type="text/css" />
 </head>
 php;
 
-            // 插入js标签
-            $toastrJsPath = asset('statics/toastr-2.1.1/toastr.min.js');
-            $init = '';
-            // 自定义提示信息
-            if (session()->has('alert-message')) {
-                $init = 'toastr.'.session('alert-type').'("'.session('alert-message').'");';
+        // 插入js标签
+        $toastrJsPath = asset('statics/toastr-2.1.1/toastr.min.js');
+        $init = '';
+        // 自定义提示信息
+        if (session()->has('alert-message')) {
+            $init = 'toastr.'.session('alert-type').'("'.session('alert-message').'");';
+        }
+        // Validate 表单验证的错误信息
+        if (session()->has('errors')) {
+            foreach (session('errors')->all() as $k => $v) {
+                $init .= 'toastr.error'.'("'.$v.'");';
             }
-            // Validate 表单验证的错误信息
-            if (session()->has('errors')) {
-                foreach (session('errors')->all() as $k => $v) {
-                    $init .= 'toastr.error'.'("'.$v.'");';
-                }
-            }
-            $jqueryJsPath = asset('statics/jquery-2.2.4/jquery.min.js');
+        }
+        $jqueryJsPath = asset('statics/jquery-2.2.4/jquery.min.js');
 
-            $toastrJs = <<<php
+        $toastrJs = <<<php
 <script>
     (function(){
         window.jQuery || document.write('<script src="$jqueryJsPath"><\/script>');
@@ -72,17 +76,15 @@ php;
 </body>
 php;
 
-            $seach = [
-                '</head>',
-                '</body>'
-            ];
-            $subject = [
-                $toastrCss,
-                $toastrJs
-            ];
-            $content = str_replace($seach, $subject, $content);
-        }
-
+        $seach = [
+            '</head>',
+            '</body>'
+        ];
+        $subject = [
+            $toastrCss,
+            $toastrJs
+        ];
+        $content = str_replace($seach, $subject, $content);
         // 更新内容并重置Content-Length
         $response->setContent($content);
         $response->headers->remove('Content-Length');
