@@ -22,7 +22,7 @@ class LaravelFlash
 
         // 判断是否有body标签如果有则添加 toastr 否则直接返回
         if (false === strripos($content, '</body>')) {
-            return $content;
+            return $response;
         }
     
         // 插入css标签
