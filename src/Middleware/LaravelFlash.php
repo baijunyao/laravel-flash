@@ -20,6 +20,11 @@ class LaravelFlash
         // 获取response内容
         $content = $response->getContent();
 
+        // 判断是否有需要弹出提示的内容如果有则添加 toastr 否则直接返回
+        if (!session()->has('alert-message') && !session()->has('errors')) {
+            return $response;
+        }
+
         // 判断是否有body标签如果有则添加 toastr 否则直接返回
         if (false === strripos($content, '</body>')) {
             return $response;
@@ -84,6 +89,7 @@ php;
             $toastrCss,
             $toastrJs
         ];
+        // p($content);die;
         $content = str_replace($seach, $subject, $content);
         // 更新内容并重置Content-Length
         $response->setContent($content);
