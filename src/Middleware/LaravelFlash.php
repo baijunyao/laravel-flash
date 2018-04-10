@@ -3,7 +3,7 @@
 namespace Baijunyao\LaravelFlash\Middleware;
 
 use Closure;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class LaravelFlash
 {
@@ -17,6 +17,15 @@ class LaravelFlash
     public function handle($request, Closure $next)
     {
         $response = $next($request);
+
+        // 跳过排除的路由
+        $except = config('flash.except');
+        foreach ($except as $k => $v) {
+            if (Str::is(trim($v, '/'), $request->path())) {
+                return $response;
+            }
+        }
+
         // 获取response内容
         $content = $response->getContent();
 
