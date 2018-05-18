@@ -24,9 +24,6 @@ class FlashServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config/flash.php' => config_path('flash.php'),
         ]);
-
-        $kernel = $this->app[Kernel::class];
-        $kernel->pushMiddleware(LaravelFlash::class);
     }
 
     /**
