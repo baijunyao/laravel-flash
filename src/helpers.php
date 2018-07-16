@@ -25,3 +25,14 @@ if (!function_exists('flash_error')){
         session()->flash('alert-type', 'error');
     }
 }
+
+if (!function_exists('flash_clear')){
+    /**
+     * 删除提示
+     */
+    function flash_clear()
+    {
+        session()->remove('alert-message');
+        session()->remove('alert-type');
+    }
+}
