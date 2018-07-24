@@ -12,8 +12,11 @@ class Manager extends PluginManager
     {
         $init = '';
         // 自定义提示信息
-        if (session()->has('alert-message')) {
-            $init = 'toastr.'.session('alert-type').'("'.session('alert-message').'");';
+        if (session()->has('laravel-flash')) {
+            foreach (session('laravel-flash') as $k => $v) {
+                $init .= 'toastr.'.$v['alert-type'].'("'.$v['alert-message'].'");';
+            }
+            flash_clear();
         }
         // Validate 表单验证的错误信息
         if (session()->has('errors')) {
@@ -54,7 +57,7 @@ php;
      */
     public function verify()
     {
-        if (session()->has('alert-message') || session()->has('errors')) {
+        if (session()->has('laravel-flash') || session()->has('errors')) {
             return true;
         } else {
             return false;

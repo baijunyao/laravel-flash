@@ -17,8 +17,11 @@ if (!function_exists('flash_success')){
     function flash_success($message = '成功', $flash = true)
     {
         if ($flash) {
-            session()->flash('alert-message', $message);
-            session()->flash('alert-type', 'success');
+            $data = [
+                'alert-message' => $message,
+                'alert-type' => 'success'
+            ];
+            Session::push('laravel-flash', $data);
         }
     }
 }
@@ -39,8 +42,11 @@ if (!function_exists('flash_error')){
     function flash_error($message = '失败', $flash = true)
     {
         if ($flash) {
-            session()->flash('alert-message', $message);
-            session()->flash('alert-type', 'error');
+            $data = [
+                'alert-message' => $message,
+                'alert-type' => 'error'
+            ];
+            Session::push('laravel-flash', $data);
         }
     }
 }
@@ -51,7 +57,6 @@ if (!function_exists('flash_clear')){
      */
     function flash_clear()
     {
-        session()->remove('alert-message');
-        session()->remove('alert-type');
+        Session::remove('laravel-flash');
     }
 }
