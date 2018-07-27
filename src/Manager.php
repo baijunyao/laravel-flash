@@ -3,7 +3,6 @@
 namespace Baijunyao\LaravelFlash;
 
 use Baijunyao\LaravelPluginManager\Contracts\PluginManager;
-use Illuminate\Support\Str;
 
 class Manager extends PluginManager
 {
@@ -59,21 +58,11 @@ php;
     public function verify()
     {
         // 检查是否有提示内容
-        if (!session()->has('laravel-flash') && !session()->has('errors')) {
+        if (session()->has('laravel-flash') || session()->has('errors')) {
+            return true;
+        } else {
             return false;
         }
-
-        // 跳过排除的路由
-        $path = request()->path();
-        $except = config('flash.except');
-        foreach ($except as $k => $v) {
-            if (Str::is(trim($v, '/'), $path)) {
-                return false;
-            }
-        }
-
-        return true;
-
     }
 
 }
