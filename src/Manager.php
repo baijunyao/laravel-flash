@@ -16,7 +16,6 @@ class Manager extends PluginManager
             foreach (session('laravel-flash') as $k => $v) {
                 $init .= 'toastr.'.$v['alert-type'].'("'.$v['alert-message'].'");';
             }
-            flash_clear();
         }
         
         // Validate 表单验证的错误信息
@@ -46,4 +45,11 @@ class Manager extends PluginManager
         }
     }
 
+    /**
+     * 清理动作
+     */
+    public function clean()
+    {
+        flash_clear();
+    }
 }
