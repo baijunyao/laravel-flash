@@ -13,7 +13,8 @@ class Manager extends PluginManager
         $init = '';
         // 自定义提示信息
         if (session()->has('laravel-flash')) {
-            foreach (session('laravel-flash') as $k => $v) {
+            $laravelFlash = array_unique(session('laravel-flash'), SORT_REGULAR);
+            foreach ($laravelFlash as $k => $v) {
                 $init .= 'toastr.'.$v['alert-type'].'("'.$v['alert-message'].'");';
             }
         }
