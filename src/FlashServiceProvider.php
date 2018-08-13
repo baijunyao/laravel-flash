@@ -17,7 +17,7 @@ class FlashServiceProvider extends ServiceProvider
     {
         // 发布配置项
         $this->publishes([
-            __DIR__.'/config/flash.php' => config_path('flash.php'),
+            __DIR__.'/config/laravel-flash.php' => config_path('laravel-flash.php'),
         ]);
     }
 
