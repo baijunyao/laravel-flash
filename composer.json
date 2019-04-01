@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "baijunyao/laravel-plugin-manager": "2.1.*",
-        "baijunyao/laravel-toastr": "1.0.*"
+        "baijunyao/laravel-plugin-manager": "^3.0",
+        "baijunyao/laravel-toastr": "^1.0"
     },
     "autoload": {
         "psr-4": {
